@@ -1,4 +1,4 @@
-﻿// Copyright (c) Zorgdoc.  All rights reserved.  Licensed under the AGPLv3.
+﻿// Copyright (c) Adrian Tudorache. All Rights Reserved. Licensed under the AGPLv3 (see License.txt for details).
 
 namespace MedMij
 {
@@ -12,36 +12,36 @@ namespace MedMij
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using System.Xml.Schema;
+    using MedMij.Utils;
 
     /// <summary>
     /// Een OAuth client list zoals beschreven op https://afsprakenstelsel.medmij.nl/
     /// </summary>
-    public class OAuthClientCollection : IEnumerable<OAuthClient>
+    public class OAuthclientlist : MedMijListBase<OAuthClient>
     {
-        private static readonly XNamespace NS = "xmlns://afsprakenstelsel.medmij.nl/oauthclientlist/release2/";
-        private static readonly XName OAuthclientlistRoot = NS + "OAuthclientlist";
         private static readonly XName OAuthclientName = NS + "OAuthclient";
         private static readonly XName OrganisatienaamName = NS + "OAuthclientOrganisatienaam";
         private static readonly XName HostnameName = NS + "Hostname";
-        private static readonly XmlSchemaSet Schemas = XMLUtils.SchemaSetFromResource("OAuthclientlist.xsd", NS);
+        private static readonly XmlSchemaSet Schemas = XMLUtils.SchemaSetFromResource(MedMijDefinitions.XsdName(MedMijDefinitions.OAuthclientlist), NS);
 
-        private readonly IReadOnlyDictionary<string, OAuthClient> dict;
-
-        private OAuthClientCollection(XDocument doc)
+        private OAuthclientlist(XDocument doc)
         {
             XMLUtils.Validate(doc, Schemas, OAuthclientlistRoot);
-            this.dict = Parse(doc);
+            Data = ParseXml(doc);
         }
 
+        private static XNamespace NS => MedMijDefinitions.OAuthclientlistNamespace;
+        private static XName OAuthclientlistRoot => NS + MedMijDefinitions.OAuthclientlist;
+
         /// <summary>
-        /// Initialiseert een <see cref="OAuthClientCollection"/> vanuit een string. Parset de string and valideert deze.
+        /// Initialiseert een <see cref="OAuthclientlist"/> vanuit een string. Parset de string and valideert deze.
         /// </summary>
         /// <param name="xmlData">Een string met de zorgaanbiederslijst als XML.</param>
-        /// <returns>De nieuwe <see cref="OAuthClientCollection"/>.</returns>
-        public static OAuthClientCollection FromXMLData(string xmlData)
+        /// <returns>De nieuwe <see cref="OAuthclientlist"/>.</returns>
+        public static OAuthclientlist FromXMLData(string xmlData)
         {
             var doc = XDocument.Parse(xmlData);
-            return new OAuthClientCollection(doc);
+            return new OAuthclientlist(doc);
         }
 
         /// <summary>
@@ -50,21 +50,21 @@ namespace MedMij
         /// <param name="naam">De organisatienaam van de <see cref="OAuthClient"/></param>
         /// <returns>De gezochte <see cref="OAuthClient"/>.</returns>
         /// <exception cref="System.Collections.Generic.KeyNotFoundException">Wordt gegenereerd als de naam niet wordt gevonden.</exception>
-        public OAuthClient GetByOrganisatienaam(string naam) => this.dict[naam];
+        public OAuthClient GetByOrganisatienaam(string naam)
+        {
+            var oauthClient = Data.FirstOrDefault(p => p.Organisatienaam == naam);
+            if (oauthClient == null)
+                throw new KeyNotFoundException();
+
+            return oauthClient;
+        }
 
         /// <summary>
-        /// Returnt een enumerator die door de <see cref="OAuthClient"/>s itereert.
+        /// Parses the xml document to the list
         /// </summary>
-        /// <returns>De <see cref="IEnumerator"/>.</returns>
-        IEnumerator<OAuthClient> IEnumerable<OAuthClient>.GetEnumerator() => this.dict.Values.GetEnumerator();
-
-        /// <summary>
-        /// Returnt een enumerator die door de <see cref="OAuthClient"/>s itereert.
-        /// </summary>
-        /// <returns>De <see cref="IEnumerator"/>.</returns>
-        IEnumerator IEnumerable.GetEnumerator() => this.dict.Values.GetEnumerator();
-
-        private static IReadOnlyDictionary<string, OAuthClient> Parse(XDocument doc)
+        /// <param name="doc">The xml document</param>
+        /// <returns>A list with data</returns>
+        protected override List<OAuthClient> ParseXml(XDocument doc)
         {
             OAuthClient ParseOAuthclient(XElement x)
                 => new OAuthClient(
@@ -72,8 +72,8 @@ namespace MedMij
                     hostname: x.Element(HostnameName).Value);
 
             var oauthclients = doc.Descendants(OAuthclientName).Select(ParseOAuthclient);
-            var d = oauthclients.ToDictionary(z => z.Organisatienaam, z => z);
-            return new ReadOnlyDictionary<string, OAuthClient>(d);
+            var d = oauthclients.ToList();
+            return new List<OAuthClient>(d);
         }
     }
 }
