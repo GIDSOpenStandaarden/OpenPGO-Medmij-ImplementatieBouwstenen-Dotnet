@@ -17,6 +17,7 @@ namespace MedMij
     /// <summary>
     /// Een gegevensdienstnamenlijst zoals beschreven op https://afsprakenstelsel.medmij.nl/
     /// </summary>
+    [Serializable]
     public class Gegevensdienstnamenlijst : MedMijListBase<Gegevensdienstnaam>
     {
         private static readonly XName GegevensdienstName = NS + "Gegevensdienst";

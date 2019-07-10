@@ -17,6 +17,7 @@ namespace MedMij
     /// <summary>
     /// Een OAuth client list zoals beschreven op https://afsprakenstelsel.medmij.nl/
     /// </summary>
+    [Serializable]
     public class OAuthclientlist : MedMijListBase<OAuthClient>
     {
         private static readonly XName OAuthclientName = NS + "OAuthclient";
