@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Adrian Tudorache. All Rights Reserved. Licensed under the AGPLv3 (see License.txt for details).
 
+using System;
+
 namespace MedMij
 {
     using System.Collections.Generic;
@@ -9,6 +11,7 @@ namespace MedMij
     /// The base class for the MedMij lists
     /// </summary>
     /// <typeparam name="T">The data structure used in the list</typeparam>
+    [Serializable]
     public abstract class MedMijListBase<T>
     {
         /// <summary>

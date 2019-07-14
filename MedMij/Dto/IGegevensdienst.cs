@@ -1,9 +1,10 @@
 // Copyright (c) Adrian Tudorache. All Rights Reserved. Licensed under the AGPLv3 (see License.txt for details).
 
+using System;
+using System.Collections.Generic;
+
 namespace MedMij
 {
-    using System;
-
     /// <summary>
     /// Een gegevensdienst zoals beschreven op https://afsprakenstelsel.medmij.nl/
     /// </summary>
@@ -28,5 +29,10 @@ namespace MedMij
         /// Gets de TokenEndpointUri van deze gevensdienst.
         /// </summary>
         Uri TokenEndpointUri { get; }
+        
+        /// <summary>
+        /// Gets the Systeemrollen defined within this gegevensdienst.
+        /// </summary>
+        IReadOnlyDictionary<string, Systeemrol> Systeemrollen { get; }
     }
 }

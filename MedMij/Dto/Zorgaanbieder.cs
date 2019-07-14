@@ -1,14 +1,15 @@
 // Copyright (c) Adrian Tudorache. All Rights Reserved. Licensed under the AGPLv3 (see License.txt for details).
 
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace MedMij
 {
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-
     /// <summary>
     /// Een zorgaanbieder zoals beschreven op https://afsprakenstelsel.medmij.nl/
     /// </summary>
+    [Serializable]
     public class Zorgaanbieder
     {
         internal Zorgaanbieder(string naam, IDictionary<string, Gegevensdienst> gegevensdiensten)

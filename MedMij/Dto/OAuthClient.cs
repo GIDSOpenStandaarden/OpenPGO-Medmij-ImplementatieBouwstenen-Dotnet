@@ -1,10 +1,13 @@
 ﻿// Copyright (c) Adrian Tudorache. All Rights Reserved. Licensed under the AGPLv3 (see License.txt for details).
 
+using System;
+
 namespace MedMij
 {
     /// <summary>
     /// Een OAuth client zoals beschreven op https://afsprakenstelsel.medmij.nl/
     /// </summary>
+    [Serializable]
     public class OAuthClient
     {
         internal OAuthClient(string hostname, string organisatienaam)

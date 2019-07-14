@@ -15,6 +15,7 @@ namespace MedMij
     /// <summary>
     /// Een whitelist zoals beschreven op https://afsprakenstelsel.medmij.nl/
     /// </summary>
+    [Serializable]
     public class Whitelist : MedMijListBase<string>
     {
         private static readonly XName MedMijNode = NS + "MedMijNode";

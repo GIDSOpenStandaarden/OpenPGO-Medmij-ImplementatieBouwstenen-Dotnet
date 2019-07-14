@@ -17,6 +17,8 @@ namespace MedMij
     /// <summary>
     /// Een zorgaanbiederslijst zoals beschreven op https://afsprakenstelsel.medmij.nl/
     /// </summary>
+    ///
+    [Serializable]
     public class Zorgaanbiederslijst : MedMijListBase<Zorgaanbieder>
     {
         private static readonly XName ZorgaanbiederName = NS + "Zorgaanbieder";
@@ -25,6 +27,9 @@ namespace MedMij
         private static readonly XName GegevensdienstIdName = NS + "GegevensdienstId";
         private static readonly XName AuthorizationEndpointuriName = NS + "AuthorizationEndpointuri";
         private static readonly XName TokenEndpointuriName = NS + "TokenEndpointuri";
+        private static readonly XName SysteemrolName = NS + "Systeemrol";
+        private static readonly XName Systeemrolcode = NS + "Systeemrolcode";
+        private static readonly XName ResourceEndpointuriName = NS + "ResourceEndpointuri";
 
         private static readonly XmlSchemaSet Schemas = XMLUtils.SchemaSetFromResource(MedMijDefinitions.XsdName(MedMijDefinitions.Zorgaanbiederslijst), NS);
 
@@ -69,16 +74,31 @@ namespace MedMij
         /// <returns>A list with data</returns>
         protected override List<Zorgaanbieder> ParseXml(XDocument doc)
         {
+            Systeemrol ParseSysteemrol(XElement x)
+            {
+                var code = x.Element(Systeemrolcode).Value;
+                var resourceEndpointuri = x.Descendants(ResourceEndpointuriName).Single().Value;
+                return new Systeemrol(
+                    code: code, 
+                    resourceEndpointuri: new Uri(resourceEndpointuri));
+            }
+            
             Gegevensdienst ParseGegevensdienst(XElement x, string zorgaanbiedernaam)
             {
                 var id = x.Element(GegevensdienstIdName).Value;
                 var authorizationEndpointUri = x.Descendants(AuthorizationEndpointuriName).Single().Value;
                 var tokenEndpointUri = x.Descendants(TokenEndpointuriName).Single().Value;
+                var systeemrollen = x.Descendants(SysteemrolName)
+                                     .Select(e => ParseSysteemrol(e))
+                                     .ToDictionary(g => g.Code, g => g);
+                
                 return new Gegevensdienst(
                     id: id,
                     zorgaanbiedernaam: zorgaanbiedernaam,
                     authorizationEndpointUri: new Uri(authorizationEndpointUri),
-                    tokenEndpointUri: new Uri(tokenEndpointUri));
+                    tokenEndpointUri: new Uri(tokenEndpointUri),
+                    systeemrollen: systeemrollen);
+                
             }
 
             Zorgaanbieder ParseZorgaanbieder(XElement x)
