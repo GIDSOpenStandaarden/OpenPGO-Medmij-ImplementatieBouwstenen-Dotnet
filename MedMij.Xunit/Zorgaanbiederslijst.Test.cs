@@ -7,14 +7,26 @@ namespace MedMij.Xunit
     using System.Threading.Tasks;
     using System.Xml;
     using global::Xunit;
+    using global::Xunit.Abstractions;
+
+
     public class ZorgaanbiederslijstTest
     {
+        private readonly ITestOutputHelper output;
+
+        public ZorgaanbiederslijstTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Theory]
         [InlineData(ZorgaanbiederslijstTestMock.ZorgaanbiedersCollectionExampleXML)]
         [InlineData(ZorgaanbiederslijstTestMock.ZorgaanbiedersCollectionEmptyExampleXML)]
         public void ZorgaanbiedersCollectionParseOK(string xmlData)
         {
-            Zorgaanbiederslijst.FromXMLData(xmlData);
+            output.WriteLine(xmlData);
+            var result = Zorgaanbiederslijst.FromXMLData(xmlData);
+            output.WriteLine(result.ToString());
         }
 
         [Theory]
@@ -22,17 +34,22 @@ namespace MedMij.Xunit
         [InlineData(ZorgaanbiederslijstTestMock.ZorgaanbiedersCollectionEmptyExampleXML)]
         public void ZorgaanbiedersCollectionIsIterable(string xmlData)
         {
+            output.WriteLine($"[ZorgaanbiedersCollectionIsIterable] Parsing: {xmlData}");
             var col = Zorgaanbiederslijst.FromXMLData(xmlData);
+            output.WriteLine($"[ZorgaanbiedersCollectionIsIterable] {col.Data.Count} records found");
+            // Assert.True(col.Data.Count > 0);
             foreach (var c in col.Data)
             {
-                System.Console.WriteLine(c.Naam);
+                output.WriteLine(c.Naam);
                 foreach (var pair in c.Gegevensdiensten)
                 {
-                    System.Console.WriteLine($"{pair.Key} == {pair.Value.Id}");
-                    System.Console.WriteLine(pair.Value.AuthorizationEndpointUri);
-                    System.Console.WriteLine(pair.Value.TokenEndpointUri);
+                    output.WriteLine($"{pair.Key} == {pair.Value.Id}");
+                    output.WriteLine(pair.Value.AuthorizationEndpointUri.ToString());
+                    output.WriteLine(pair.Value.TokenEndpointUri.ToString());
+                    foreach (var role in pair.Value.Systeemrollen)
+                        output.WriteLine(role.ToString());
                 }
-                System.Console.WriteLine();
+                output.WriteLine("");
             }
         }
 

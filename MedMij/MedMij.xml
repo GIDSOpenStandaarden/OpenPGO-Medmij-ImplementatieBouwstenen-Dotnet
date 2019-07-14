@@ -172,6 +172,33 @@
             <param name="doc">The xml document</param>
             <returns>A list with data</returns>
         </member>
+        <member name="T:MedMij.OAuthclientlist">
+            <summary>
+            Een OAuth client list zoals beschreven op https://afsprakenstelsel.medmij.nl/
+            </summary>
+        </member>
+        <member name="M:MedMij.OAuthclientlist.FromXMLData(System.String)">
+            <summary>
+            Initialiseert een <see cref="T:MedMij.OAuthclientlist"/> vanuit een string. Parset de string and valideert deze.
+            </summary>
+            <param name="xmlData">Een string met de zorgaanbiederslijst als XML.</param>
+            <returns>De nieuwe <see cref="T:MedMij.OAuthclientlist"/>.</returns>
+        </member>
+        <member name="M:MedMij.OAuthclientlist.GetByOrganisatienaam(System.String)">
+            <summary>
+            Geeft de <see cref="T:MedMij.OAuthClient"/> met de opgegeven organisatienaam.
+            </summary>
+            <param name="naam">De organisatienaam van de <see cref="T:MedMij.OAuthClient"/></param>
+            <returns>De gezochte <see cref="T:MedMij.OAuthClient"/>.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Wordt gegenereerd als de naam niet wordt gevonden.</exception>
+        </member>
+        <member name="M:MedMij.OAuthclientlist.ParseXml(System.Xml.Linq.XDocument)">
+            <summary>
+            Parses the xml document to the list
+            </summary>
+            <param name="doc">The xml document</param>
+            <returns>A list with data</returns>
+        </member>
         <member name="T:MedMij.Oauth.PGOOAuth">
             <summary>
             Methodes voor het implementeren van OAuth aan de kant van de PGO
@@ -212,33 +239,6 @@
             <param name="state">De state die de PGO heeft meegegeven aan de </param>
             <param name="authCode">de authCode geeft de PGO toegang tot de patientgegevens</param>
             <returns>De URL met alle benodigde parameters die de PGO nodig heeft om de OAuth flow af te ronden</returns>
-        </member>
-        <member name="T:MedMij.OAuthclientlist">
-            <summary>
-            Een OAuth client list zoals beschreven op https://afsprakenstelsel.medmij.nl/
-            </summary>
-        </member>
-        <member name="M:MedMij.OAuthclientlist.FromXMLData(System.String)">
-            <summary>
-            Initialiseert een <see cref="T:MedMij.OAuthclientlist"/> vanuit een string. Parset de string and valideert deze.
-            </summary>
-            <param name="xmlData">Een string met de zorgaanbiederslijst als XML.</param>
-            <returns>De nieuwe <see cref="T:MedMij.OAuthclientlist"/>.</returns>
-        </member>
-        <member name="M:MedMij.OAuthclientlist.GetByOrganisatienaam(System.String)">
-            <summary>
-            Geeft de <see cref="T:MedMij.OAuthClient"/> met de opgegeven organisatienaam.
-            </summary>
-            <param name="naam">De organisatienaam van de <see cref="T:MedMij.OAuthClient"/></param>
-            <returns>De gezochte <see cref="T:MedMij.OAuthClient"/>.</returns>
-            <exception cref="T:System.Collections.Generic.KeyNotFoundException">Wordt gegenereerd als de naam niet wordt gevonden.</exception>
-        </member>
-        <member name="M:MedMij.OAuthclientlist.ParseXml(System.Xml.Linq.XDocument)">
-            <summary>
-            Parses the xml document to the list
-            </summary>
-            <param name="doc">The xml document</param>
-            <returns>A list with data</returns>
         </member>
         <member name="T:MedMij.Whitelist">
             <summary>

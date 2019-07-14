@@ -12,10 +12,10 @@ namespace MedMij.Example
     {
         async public static Task Run()
         {
-            const string WHITELIST_URL = "https://afsprakenstelsel.medmij.nl/download/attachments/22348803/MedMij_Whitelist_example.xml?version=1&modificationDate=1538136425019&api=v2";
-            const string ZAL_URL = "https://afsprakenstelsel.medmij.nl/download/attachments/22348803/MedMij_Zorgaanbiederslijst_example.xml?version=1&modificationDate=1538136425025&api=v2";
-            const string OCL_URL = "https://afsprakenstelsel.medmij.nl/download/attachments/22348803/MedMij_OAuthclientlist_example.xml?version=1&modificationDate=1538136425022&api=v2";
-            const string GNL_URL = "https://afsprakenstelsel.medmij.nl/download/attachments/22348803/MedMij_Gegevensdienstnamenlijst_example.xml?version=1&modificationDate=1538136425017&api=v2";
+            const string WHITELIST_URL = "https://afsprakenstelsel.medmij.nl/download/attachments/27787489/MedMij_Whitelist_example.xml?version=1&modificationDate=1548321206455&api=v2";
+            const string ZAL_URL = "https://afsprakenstelsel.medmij.nl/download/attachments/27787489/MedMij_Zorgaanbiederslijst_example.xml?version=1&modificationDate=1548321206460&api=v2";
+            const string OCL_URL = "https://afsprakenstelsel.medmij.nl/download/attachments/27787489/MedMij_OAuthclientlist_example.xml?version=1&modificationDate=1548321206457&api=v2";
+            const string GNL_URL = "https://afsprakenstelsel.medmij.nl/download/attachments/27787489/MedMij_Gegevensdienstnamenlijst_example.xml?version=1&modificationDate=1548321206452&api=v2";
 
             var serviceCollection = new ServiceCollection().AddHttpClient();
             var factory = serviceCollection.BuildServiceProvider().GetRequiredService<IHttpClientFactory>();
