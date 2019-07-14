@@ -7,7 +7,7 @@ namespace MedMij.Xunit
     using System.Xml;
     using global::Xunit;
 
-    public class GegevensdienstnamenlijstTest: IClassFixture<GegevensdienstnamenlijstTest>
+    public class GegevensdienstnamenlijstTest : IClassFixture<GegevensdienstnamenlijstTest>
     {
         [Theory]
         [InlineData(GegevensdienstnamenlijstTestMock.GegevensdienstnamenlijstExampleXML)]
