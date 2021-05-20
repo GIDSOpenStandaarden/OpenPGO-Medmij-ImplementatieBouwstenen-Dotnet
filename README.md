@@ -1,3 +1,6 @@
+# This repository has been archived
+Dear reader, The decision has been made to archive this repository. The reason is that the OpenPGO-Medmij-ImplementatieBouwstenen-NodeJS isn’t being used and has deferred maintenance including security vulnerabilities. If you desire to use this adapter, please contact GIDS: info@gidsopenstandaarden.org.
+
 # Medmij dotnet
 .NET implementation of the MedMij OpenPGO building blocks.
 The Medmij for .Net git project is the .NET implementation of the MedMij OpenPGO building blocks.
